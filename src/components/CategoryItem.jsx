@@ -13,7 +13,6 @@ function CategoryItem({ arrayHelpers, values }) {
               <CheckBoxInput
                 name={categoryRow.name}
                 type={"checkbox"}
-                // value={index}
                 value={categoryRow.name}
                 label={categoryRow.name}
                 checked={
