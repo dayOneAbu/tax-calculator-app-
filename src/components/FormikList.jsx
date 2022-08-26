@@ -2,9 +2,9 @@ import { FieldArray } from "formik";
 
 const parentChecked = (e, categoryRow, values, arrayHelpers) => {
   if (e.target.checked) {
-    categoryRow.arr.map((item, index) => {
+    categoryRow.featured.map((item, index) => {
       if (
-        categoryRow.arr.hasOwnProperty(index) &&
+        categoryRow.featured.hasOwnProperty(index) &&
         !values.applicableItems.some(
           (applicableItem) => applicableItem.id === item.id
         )
@@ -13,8 +13,8 @@ const parentChecked = (e, categoryRow, values, arrayHelpers) => {
       }
     });
   } else {
-    categoryRow.arr.map((item, index) => {
-      if (categoryRow.arr.hasOwnProperty(index)) {
+    categoryRow.featured.map((item, index) => {
+      if (categoryRow.featured.hasOwnProperty(index)) {
         const idx = values.applicableItems.findIndex(() => {
           return e.target.name === item.cat_name;
         });
@@ -47,7 +47,7 @@ const FormikList = ({ values, arr, index, categoryRow, arrayHelpers }) => {
           className="accent-cyan-400"
           checked={
             values.appliedTo === "allItems" ||
-            arr.length === categoryRow.arr.length
+            arr.length === categoryRow.featured.length
               ? true
               : false
           }
@@ -62,7 +62,7 @@ const FormikList = ({ values, arr, index, categoryRow, arrayHelpers }) => {
         {(arrayHelpers) => {
           return (
             <div className="text-sm mx-4 flex flex-col w-full px-3 py-2">
-              {categoryRow.arr.map((cateItem) => {
+              {categoryRow.featured.map((cateItem) => {
                 return (
                   <label key={cateItem.id} className="my-2 text-xl">
                     <input
