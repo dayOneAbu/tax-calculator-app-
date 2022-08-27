@@ -30,13 +30,18 @@ function CategoryItem({ arrayHelpers, values }) {
                     });
                   } else {
                     const {
-                      form: { setFieldValue },
+                      form: { setValues },
                     } = arrayHelpers;
-                    products.forEach((item) => {
-                      const idx = getIndex(values.applicableItems, item.id);
-                      idx > -1 && arrayHelpers.remove(idx);
+
+                    setValues({
+                      taxName: values.taxName,
+                      categories: values.categories,
+                      taxRate: values.taxRate,
+                      appliedTo: "selectedItems",
+                      applicableItems: values.applicableItems.filter(
+                        (item) => item.cat_name !== e.target.name
+                      ),
                     });
-                    setFieldValue("appliedTo", "selectedItems");
                   }
                 }}
               />

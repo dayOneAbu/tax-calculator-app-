@@ -9,7 +9,7 @@ function CheckBoxInput({ label, onChange, checked, type, value, name }) {
         onChange={onChange}
         className="opacity-0 absolute h-5 w-5"
       />
-      <div className="bg-gray-300 border-4 rounded-md border-[#327B91] w-6 h-6 flex flex-shrink-0 justify-center items-center focus-within:border-[#327B91]">
+      <div className="bg-gray-100 border-4 rounded-md border-[#327B91] w-6 h-6 flex flex-shrink-0 justify-center items-center focus-within:border-[#327B91]">
         <svg
           className="fill-current hidden  w-3 h-3 text-[#327B91] pointer-events-none"
           version="1.1"

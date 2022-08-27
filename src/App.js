@@ -2,6 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { Formik, Field, Form, FieldArray } from "formik";
 import CategoryItem from "./components/CategoryItem";
 import { isInTheList } from "./helpers";
+
 const categories = [
   {
     name: "Bracelets",
@@ -39,7 +40,7 @@ function App() {
   return (
     <div className="max-w-3xl mx-auto py-2 shadow-md">
       <Formik
-        enableReinitialize
+        // enableReinitialize
         initialValues={{
           taxName: "",
           categories,
@@ -58,11 +59,9 @@ function App() {
           alert(JSON.stringify(cartItems, null, 2));
         }}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, setValues }) => (
           <FieldArray name="applicableItems">
             {(arrayHelpers) => {
-              console.log("here on app");
-              console.log(values.applicableItems);
               return (
                 <Form className="">
                   <div className="my-8 px-8 max-w-xl">
@@ -78,8 +77,8 @@ function App() {
                         <input
                           name={"taxRate"}
                           type={"number"}
-                          onChange={(v) => {
-                            setFieldValue("taxRate", v.target.value);
+                          onChange={(e) => {
+                            setFieldValue("taxRate", e.target.value);
                           }}
                           defaultValue={values.taxRate}
                           placeholder="Tax Rate"
@@ -92,32 +91,31 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="flex-col px-4  text-sm">
-                      <div className="flex">
-                        <label htmlFor="allItems" className="text-lg">
-                          <Field
-                            type="radio"
-                            name="appliedTo"
-                            value={"allItems"}
-                            onChange={(v) => {
-                              setFieldValue("appliedTo", v.target.value);
-                              values.categories.forEach((item) =>
-                                item.featured.map((i) =>
-                                  isInTheList(values.applicableItems, i.id)
-                                    ? ""
-                                    : arrayHelpers.push(i)
-                                )
-                              );
-                            }}
-                            className="accent-orange-500  rounded-full w-6 h-6 "
-                          />
-                          <span className="ml-2">
-                            Apply to all items in collection
-                          </span>
+                    <div className="flex-col  text-base">
+                      <div className="flex items-center py-2">
+                        <Field
+                          type="radio"
+                          name="appliedTo"
+                          value={"allItems"}
+                          onChange={(e) => {
+                            setFieldValue("appliedTo", e.target.value);
+                            values.categories.forEach((item) =>
+                              item.featured.map((i) =>
+                                isInTheList(values.applicableItems, i.id)
+                                  ? ""
+                                  : arrayHelpers.push(i)
+                              )
+                            );
+                          }}
+                          className="accent-orange-500  rounded-full w-6 h-6"
+                        />
+
+                        <label className="ml-2" htmlFor="allItems">
+                          Apply to all items in collection
                         </label>
                       </div>
-                      <div className="flex">
-                        <label htmlFor="selectedItems" className="text-lg">
+                      <div className="flex-col  text-base">
+                        <div className="flex items-center py-2">
                           <Field
                             type="radio"
                             name="appliedTo"
@@ -125,10 +123,12 @@ function App() {
                             onChange={(v) => {
                               setFieldValue("appliedTo", v.target.value);
                             }}
-                            className="accent-orange-500 rounded-full w-6 h-6 "
+                            className="accent-orange-500 rounded-full w-6 h-6"
                           />
-                          <span className="ml-2">Apply to selected items</span>
-                        </label>
+                          <label className="ml-2" htmlFor="selectedItems">
+                            Apply to selected items
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -140,6 +140,23 @@ function App() {
                       <Field
                         type={"text"}
                         name="search-key"
+                        onChange={(e) => {
+                          setValues({
+                            taxName: values.taxName,
+                            categories: values.categories.map((category) => {
+                              console.log(category);
+                              return {
+                                name: category.name,
+                                featured: category.featured.filter(
+                                  (item) => item.name === e.target.value
+                                ),
+                              };
+                            }),
+                            taxRate: values.taxRate,
+                            appliedTo: "selectedItems",
+                            applicableItems: values.applicableItems,
+                          });
+                        }}
                         className="block w-1/2 h-10 col-span-2 py-2 px-6 shadow-sm sm:text-sm focus:ring-grape-500 focus:border-grape-500 border border-gray-300 rounded-md"
                         placeholder="search for item"
                       />
