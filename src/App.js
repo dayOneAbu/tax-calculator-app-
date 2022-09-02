@@ -144,11 +144,12 @@ function App() {
                           setValues({
                             taxName: values.taxName,
                             categories: values.categories.map((category) => {
-                              console.log(category);
                               return {
                                 name: category.name,
-                                featured: category.featured.filter(
-                                  (item) => item.name === e.target.value
+                                featured: category.featured.filter((item) =>
+                                  item.name
+                                    .toLowerCase()
+                                    .includes(e.target.value.toLowerCase())
                                 ),
                               };
                             }),
